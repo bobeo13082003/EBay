@@ -86,30 +86,21 @@ exports.verifyOTP = async (req, res) => {
 
 
 exports.loginWithGoogle = async (req, res) => {
-    const { idToken } = req.body;
+    const { credential } = req.body;
 
     try {
-        // 1️⃣ Verify token từ Google
         const ticket = await client.verifyIdToken({
-            idToken,
+            idToken: credential,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
 
         const payload = ticket.getPayload();
+        const { sub: googleId, email, name, picture } = payload;
 
-        const {
-            sub: googleId,
-            email,
-            name,
-            picture,
-        } = payload;
-
-        // 2️⃣ Tìm user
         let user = await Users.findOne({
             $or: [{ googleId }, { email }],
         });
 
-        // 3️⃣ Nếu chưa có → tạo mới
         if (!user) {
             user = await Users.create({
                 username: name,
@@ -119,12 +110,10 @@ exports.loginWithGoogle = async (req, res) => {
                 isActive: true,
             });
         } else if (!user.googleId) {
-            // Link account
             user.googleId = googleId;
             await user.save();
         }
 
-        // 4️⃣ Tạo JWT
         const token = jwt.sign(
             { userId: user._id, role: user.role },
             process.env.JWT_SECRET,
@@ -140,7 +129,6 @@ exports.loginWithGoogle = async (req, res) => {
                 email: user.email,
                 avatarURL: user.avatarURL,
             },
-            status: 200
         });
 
     } catch (err) {
@@ -148,6 +136,7 @@ exports.loginWithGoogle = async (req, res) => {
         res.status(401).json({ message: "Google authentication failed" });
     }
 };
+
 
 
 exports.login = async (req, res) => {
