@@ -38,30 +38,26 @@ axiosClient.interceptors.response.use(
         return response;
     },
     (error) => {
+
         const status = error.response?.status;
-        const message =
-            error.response?.data?.message || "Something went wrong";
 
-        switch (status) {
-            case 401:
-                console.warn("401 Unauthorized – redirect to login");
-                localStorage.removeItem("token");
-                window.location.href = "/login";
-                break;
-
-            case 403:
-                alert("You do not have permission to perform this action");
-                break;
-
-            case 500:
-                alert("Server error. Please try again later.");
-                break;
-
-            default:
-                console.error("API Error:", message);
+        // ❗ CHỈ xử lý lỗi hệ thống
+        if (status === 401) {
+            localStorage.removeItem("token");
+            window.location.href = "/login";
         }
 
+        if (status === 403) {
+            alert("You do not have permission to perform this action");
+        }
+
+        if (status >= 500) {
+            alert("Server error. Please try again later.");
+        }
+
+        // ❗ QUAN TRỌNG: luôn trả error về cho Redux
         return Promise.reject(error);
+
     }
 );
 

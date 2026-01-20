@@ -25,8 +25,10 @@ export const loginGoogle = createAsyncThunk(
         try {
             const res = await loginGoogleApi(credential);
             return res.data;
-        } catch {
-            return rejectWithValue("Google login failed");
+        } catch (error) {
+            return rejectWithValue(
+                error.response?.data?.message || "Login failed"
+            );
         }
     }
 );
