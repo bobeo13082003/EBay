@@ -1,10 +1,9 @@
-const { Users } = require("../models/users");
-const { generateOTP } = require("../utils/otp");
+const generateOTP = require("../utils/otp")
 const { OAuth2Client } = require("google-auth-library");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { sendOTPEmail } = require("../services/email.service");
-
+const { Users } = require("../models/users")
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 exports.register = async (req, res) => {
     const { username, email, password, country } = req.body;
@@ -205,6 +204,34 @@ exports.login = async (req, res) => {
         });
     }
 };
+
+exports.getMyProfile = async (req, res) => {
+    return res.json({
+        status: 200,
+        data: {
+            id: req.user.id,
+            email: req.user.email,
+            username: req.user.username,
+        },
+    });
+};
+
+// exports.updateMyProfile = async (req, res) => {
+//     const { username } = req.body;
+
+//     if (!username) {
+//         return res.status(400).json({
+//             message: "Username is required",
+//         });
+//     }
+
+//     // giả sử đã update DB
+//     return res.json({
+//         status: 200,
+//         message: "Profile updated successfully",
+//     });
+// };
+
 
 
 

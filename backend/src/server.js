@@ -9,8 +9,10 @@ app.use(cors());
 
 
 const authRouters = require("./routers/auth")
+const addressRouters = require("./routers/address")
 
 app.use("/api/auth", authRouters)
+app.use("/api/addresses", addressRouters)
 
 const PORT = process.env.PORT || 9999;
 app.listen(PORT, () => {
