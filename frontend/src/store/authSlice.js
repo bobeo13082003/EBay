@@ -41,7 +41,7 @@ const authSlice = createSlice({
     name: "auth",
     initialState: {
         user: null,
-        token: null,
+        token: localStorage.getItem("token"),
         loading: false,
         error: null,
     },
@@ -49,6 +49,7 @@ const authSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.token = null;
+            localStorage.removeItem("token");
         },
     },
     extraReducers: (builder) => {
@@ -62,6 +63,7 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.token = action.payload.token;
                 state.user = action.payload.user;
+                localStorage.setItem("token", action.payload.token);
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;
@@ -77,6 +79,7 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.token = action.payload.token;
                 state.user = action.payload.user;
+                localStorage.setItem("token", action.payload.token);
             })
             .addCase(loginGoogle.rejected, (state, action) => {
                 state.loading = false;

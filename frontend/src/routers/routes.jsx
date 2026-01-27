@@ -6,6 +6,7 @@ import Register from "../pages/Register";
 import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
 import VerifyOtp from "../pages/VerifyOtp";
+import Profile from "../pages/Profile";
 
 const router = createBrowserRouter([
     {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
             { path: "/login", element: <Login /> },
             { path: "/verify-otp", element: <VerifyOtp /> },
         ],
+    },
+    {
+        path: "/profile",
+        element: <Profile />,
     },
 
     {
