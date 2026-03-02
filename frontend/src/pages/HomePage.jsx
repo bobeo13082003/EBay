@@ -6,68 +6,10 @@ import { Footer } from "../components/Footer"
 import { CategoryNav } from "../components/CategoryNav"
 import { FeaturedCategories } from "../components/FeaturedCategories"
 import { PromoBanner } from "../components/PromoBanner"
-import { ProductDetail } from "./ProductDetail"
 import { HeroSlider } from "../components/HeroSlider"
 import { useEffect } from "react"
 
 // Mock product data
-const todaysDeals = [
-    {
-        id: "1",
-        image:
-            "https://images.unsplash.com/photo-1756321426794-6006d7d3f161?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzbWFydHBob25lJTIwcHJvZHVjdCUyMHdoaXRlJTIwYmFja2dyb3VuZHxlbnwxfHx8fDE3NzE5MDQ0Nzl8MA&ixlib=rb-4.1.0&q=80&w=400",
-        title: "Latest Smartphone Pro Max 256GB Unlocked",
-        price: "$799.99",
-        originalPrice: "$999.99",
-        discount: "20% OFF"
-    },
-    {
-        id: "2",
-        image:
-            "https://images.unsplash.com/photo-1736616967588-d81fcd6f4d0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXB0b3AlMjBjb21wdXRlciUyMHByb2R1Y3R8ZW58MXx8fHwxNzcxODE1MjQ2fDA&ixlib=rb-4.1.0&q=80&w=400",
-        title: 'Ultra Thin Laptop 15.6" 16GB RAM 512GB SSD',
-        price: "$1,299.99",
-        originalPrice: "$1,599.99",
-        discount: "19% OFF"
-    },
-    {
-        id: "3",
-        image:
-            "https://images.unsplash.com/photo-1622760807301-4d2351a5a942?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzbmVha2VycyUyMHNob2VzJTIwcHJvZHVjdHxlbnwxfHx8fDE3NzE4ODQ5MTR8MA&ixlib=rb-4.1.0&q=80&w=400",
-        title: "Premium Running Shoes - Lightweight & Comfortable",
-        price: "$89.99",
-        originalPrice: "$129.99",
-        discount: "31% OFF"
-    },
-    {
-        id: "4",
-        image:
-            "https://images.unsplash.com/photo-1670177257750-9b47927f68eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YXRjaCUyMGx1eHVyeSUyMHByb2R1Y3R8ZW58MXx8fHwxNzcxODkzNjgxfDA&ixlib=rb-4.1.0&q=80&w=400",
-        title: "Luxury Automatic Watch Steel Band Classic Design",
-        price: "$459.99",
-        originalPrice: "$699.99",
-        discount: "34% OFF"
-    },
-    {
-        id: "5",
-        image:
-            "https://images.unsplash.com/photo-1580236176063-bea7f16aec30?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFkcGhvbmVzJTIwcHJvZHVjdCUyMHdoaXRlfGVufDF8fHx8MTc3MTkwNDQ4MHww&ixlib=rb-4.1.0&q=80&w=400",
-        title: "Wireless Noise Cancelling Headphones Premium",
-        price: "$199.99",
-        originalPrice: "$299.99",
-        discount: "33% OFF"
-    },
-    {
-        id: "6",
-        image:
-            "https://images.unsplash.com/photo-1632222623518-bbbd5f1f2489?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1lcmElMjBwcm9kdWN0JTIwcGhvdG9ncmFwaHl8ZW58MXx8fHwxNzcxOTAzNjk4fDA&ixlib=rb-4.1.0&q=80&w=400",
-        title: "Professional DSLR Camera 24MP with Lens Kit",
-        price: "$1,899.99",
-        originalPrice: "$2,499.99",
-        discount: "24% OFF"
-    }
-]
-
 const trendingProducts = [
     {
         id: "7",
