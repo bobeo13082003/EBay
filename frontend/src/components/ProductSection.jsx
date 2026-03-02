@@ -1,8 +1,9 @@
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useRef } from "react"
 import { ProductCard } from "./ProductCard"
+import { Link } from "react-router-dom"
 
-export function ProductSection({ title, products }) {
+export function ProductSection({ title, subheading, products }) {
     const scrollRef = useRef(null)
 
     const scroll = direction => {
@@ -19,7 +20,10 @@ export function ProductSection({ title, products }) {
         <div className="bg-white py-8">
             <div className="mx-auto max-w-[1400px] px-4">
                 <div className="mb-4 flex items-center justify-between">
-                    <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
+                    <div className="flex-col">
+                        <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
+                        <h3 className="text-base text-gray-700 mt-1 font-normal">{subheading}</h3>
+                    </div>
                     <a href="#" className="text-sm text-blue-600 hover:text-blue-700">
                         See all
                     </a>
@@ -38,8 +42,20 @@ export function ProductSection({ title, products }) {
                         className="flex gap-4 overflow-x-auto scrollbar-hide"
                         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                     >
-                        {products.map(product => (
-                            <ProductCard key={product.id} {...product} />
+                        {products.map((product, index) => (
+                            <Link
+                                key={product._id}
+                                to={`/products/${product._id}`}
+                            >
+                                <ProductCard
+                                    key={product._id ?? index}
+                                    image={product.images?.[0]}
+                                    title={product.title}
+                                    price={product.price}
+                                    originalPrice={product.originalPrice}
+                                    discount={product.discount}
+                                />
+                            </Link>
                         ))}
                     </div>
 

@@ -8,6 +8,7 @@ import { FeaturedCategories } from "../components/FeaturedCategories"
 import { PromoBanner } from "../components/PromoBanner"
 import { ProductDetail } from "./ProductDetail"
 import { HeroSlider } from "../components/HeroSlider"
+import { useEffect } from "react"
 
 // Mock product data
 const todaysDeals = [
@@ -158,11 +159,22 @@ const recommendedProducts = [
 ]
 
 export default function HomePage() {
-    // const [view, setView] = useState("pdp")
+    const [products, setProducts] = useState([]);
 
-    // if (view === "pdp") {
-    //     return <ProductDetail />
-    // }
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const productRes = await fetch('http://localhost:9999/products')
+                const productData = await productRes.json()
+
+                setProducts(productData)
+            } catch (error) {
+                console.error("Error fetching data:", error)
+            }
+        }
+
+        fetchData();
+    }, [])
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -172,7 +184,8 @@ export default function HomePage() {
             {/* <HeroBanner /> */}
             <HeroSlider />
             <FeaturedCategories />
-            <ProductSection title="Today's Deals" products={todaysDeals} />
+            {/* <ProductSection title="Today's Deals" products={todaysDeals} /> */}
+            <ProductSection title="Today's Deals" subheading='All With Free Shipping' products={products} />
             <div className="h-px bg-gray-200" />
             <ProductSection title="Trending Now" products={trendingProducts} />
             <PromoBanner />

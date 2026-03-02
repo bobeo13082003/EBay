@@ -10,15 +10,18 @@ import { SimilarItems } from "../components/SimilarItems"
 import { Reviews } from "../components/Reviews"
 import { SellerFeedback } from "../components/SellerFeedback"
 import { Footer } from "../components/Footer"
+import { Link, useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Heart, Info, ShoppingCart, Zap } from "lucide-react"
 
 // Mock product data
-const productImages = [
-    "https://images.unsplash.com/photo-1678599694227-549a5420f352?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1lcmElMjBwcm9kdWN0JTIwcHJvZmVzc2lvbmFsJTIwcGhvdG9ncmFwaHl8ZW58MXx8fHwxNzcxOTA1MDAyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    "https://images.unsplash.com/photo-1762512949120-5d6ff938a92d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1lcmElMjBiYWNrJTIwdmlldyUyMHByb2R1Y3R8ZW58MXx8fHwxNzcxOTA1MDAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    "https://images.unsplash.com/photo-1745847768386-35ee12035cd5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1lcmElMjBsZW5zJTIwY2xvc2UlMjBkZXRhaWx8ZW58MXx8fHwxNzcxOTA1MDAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    "https://images.unsplash.com/photo-1739387161072-8de153f9cdd1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1lcmElMjBhY2Nlc3NvcmllcyUyMGJ1bmRsZXxlbnwxfHx8fDE3NzE5MDUwMDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    "https://images.unsplash.com/photo-1767431846422-35b93b89764f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1lcmElMjBwYWNrYWdpbmclMjBib3h8ZW58MXx8fHwxNzcxOTA1MDA0fDA&ixlib=rb-4.1.0&q=80&w=1080"
-]
+// const productImages = [
+//     "https://images.unsplash.com/photo-1678599694227-549a5420f352?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1lcmElMjBwcm9kdWN0JTIwcHJvZmVzc2lvbmFsJTIwcGhvdG9ncmFwaHl8ZW58MXx8fHwxNzcxOTA1MDAyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+//     "https://images.unsplash.com/photo-1762512949120-5d6ff938a92d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1lcmElMjBiYWNrJTIwdmlldyUyMHByb2R1Y3R8ZW58MXx8fHwxNzcxOTA1MDAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+//     "https://images.unsplash.com/photo-1745847768386-35ee12035cd5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1lcmElMjBsZW5zJTIwY2xvc2UlMjBkZXRhaWx8ZW58MXx8fHwxNzcxOTA1MDAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+//     "https://images.unsplash.com/photo-1739387161072-8de153f9cdd1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1lcmElMjBhY2Nlc3NvcmllcyUyMGJ1bmRsZXxlbnwxfHx8fDE3NzE5MDUwMDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+//     "https://images.unsplash.com/photo-1767431846422-35b93b89764f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYW1lcmElMjBwYWNrYWdpbmclMjBib3h8ZW58MXx8fHwxNzcxOTA1MDA0fDA&ixlib=rb-4.1.0&q=80&w=1080"
+// ]
 
 const productInfo = {
     title:
@@ -198,6 +201,63 @@ const sellerFeedback = {
 }
 
 export function ProductDetail() {
+    const { id } = useParams()
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+    const [product, setProduct] = useState(null)
+
+    const fetchProductDetail = async () => {
+        if (!id) return
+
+        try {
+            setLoading(true)
+            const productRes = await fetch(`http://localhost:9999/products/${id}`)
+            const productData = await productRes.json()
+
+            setProduct(productData)
+        } catch (error) {
+            console.error("Error fetching data:", error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        if (id) fetchProductDetail()
+    }, [id])
+
+    if (loading) return <div className="absolute top-0 left-0 w-full h-1 bg-blue-500 animate-pulse z-10" />
+    if (error) return <div>Something went wrong: {error}</div>
+
+    const {
+        title,
+        description,
+        price,
+        images,
+        categoryId,
+        sellerId,
+        isAuction,
+        quantity,
+        status
+    } = product
+
+    const productImages = images || []
+    const sellerInfo = {
+        id: product?.sellerId._id,
+        username: product?.sellerId.username,
+        avatarUrl: product?.sellerId.avatarURL
+    }
+    const productInfo = {
+        title: product?.title,
+        description: product?.description,
+        price: product?.price,
+        categoryname: product?.categoryId.name,
+        categoryDescription: product?.categoryId.description,
+        isAuction: product?.isAuction,
+        quantity: product?.quantity,
+        status: product?.status
+    }
+
     return (
         <div className="min-h-screen bg-gray-50">
             <TopUtilityBar />
@@ -205,7 +265,7 @@ export function ProductDetail() {
             <CategoryNav />
 
             {/* Breadcrumb */}
-            <div className="border-b border-gray-200 bg-white">
+            {/* <div className="border-b border-gray-200 bg-white">
                 <div className="mx-auto max-w-[1400px] px-4 py-3">
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                         <a href="#" className="hover:text-blue-600">
@@ -223,29 +283,78 @@ export function ProductDetail() {
                         <span className="text-gray-900">Digital Cameras</span>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             {/* Main Content */}
             <div className="mx-auto max-w-[1400px] px-4 py-8">
                 {/* Product Overview Section */}
                 <div className="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
                     {/* Left: Gallery */}
-                    <div className="lg:col-span-5">
+                    <div className="lg:col-span-7">
                         <ProductGallery images={productImages} />
                     </div>
 
                     {/* Center: Product Info */}
-                    <div className="lg:col-span-4">
-                        <ProductInfo {...productInfo} />
+                    <div className="lg:col-span-5">
+                        <div className="text-2xl font-bold text-gray-800 pb-4 border-b border-gray-300 mb-4">
+                            {productInfo.title}
+                            {/* iRobot Roomba j7+ Self-Emptying Vacuum Cleaning Robot - Certified Refurbished! */}
+                        </div>
+
+                        <div className="flex items-center gap-4 pb-4 border-b border-gray-300 mb-4">
+                            <img
+                                src={sellerInfo.avatarUrl}
+                                alt={title}
+                                className="w-12 h-12 rounded-full"
+                            />
+                            <div className="flex flex-col gap-1">
+                                <span className="text-lg font-bold text-gray-800">
+                                    {sellerInfo.username}
+                                </span>
+
+                                <Link
+                                    to={`/seller/${sellerInfo.username}`}
+                                    className="text-base text-gray-800 underline hover:text-gray-500 cursor-pointer"
+                                >
+                                    Seller's other items
+                                </Link>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start gap-4 pb-4 border-b border-gray-300 mb-4">
+                            <div className="flex flex-col gap-1">
+                                <span className="text-3xl font-bold text-gray-800">
+                                    US ${productInfo.price}
+                                </span>
+                                <span className="text-base text-gray-800 flex items-center gap-2 underline hover:text-gray-500 cursor-pointer">
+                                    <Info className="h-4 w-4" />
+                                    Price details
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div className="space-y-2 pb-4 border-b border-gray-300 mb-4">
+                            <button className="flex w-full items-center justify-center gap-2 rounded-3xl bg-blue-600 px-6 py-3 font-semibold text-white text-lg hover:bg-blue-700">
+                                Buy It Now
+                            </button>
+                            <button className="flex w-full items-center justify-center gap-2 rounded-3xl border-2 border-blue-600 bg-white px-6 py-3 font-semibold text-lg text-blue-600 hover:bg-blue-50">
+                                Add to cart
+                            </button>
+                            <button className="flex w-full items-center justify-center gap-2 rounded-3xl border-2 border-blue-600 bg-white px-6 py-3 font-semibold text-lg text-blue-600 hover:bg-blue-50">
+                                <Heart className="h-5 w-5" />
+                                Add to Watchlist
+                            </button>
+                        </div>
                     </div>
 
                     {/* Right: Buy Box */}
-                    <div className="lg:col-span-3">
+                    {/* <div className="lg:col-span-3">
                         <BuyBox {...buyBoxData} />
                         <div className="mt-4">
                             <SellerInfo {...sellerData} />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Product Details Section */}

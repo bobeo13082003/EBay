@@ -20,23 +20,23 @@ export function ProductGallery({ images }) {
                     <button
                         key={index}
                         onClick={() => setSelectedIndex(index)}
-                        className={`h-16 w-16 flex-shrink-0 rounded border-2 ${selectedIndex === index
-                                ? "border-blue-600"
-                                : "border-gray-200 hover:border-gray-400"
+                        className={`h-24 w-24 flex-shrink-0 rounded-2xl border-2 ${selectedIndex === index
+                            ? "border-gray-800"
+                            : "border-gray-200 hover:border-gray-400"
                             }`}
                     >
                         <img
                             src={image}
                             alt={`Product ${index + 1}`}
-                            className="h-full w-full rounded object-cover"
+                            className="h-full w-full rounded-2xl object-cover"
                         />
                     </button>
                 ))}
             </div>
 
             {/* Main Image */}
-            <div className="relative flex-1">
-                <div className="relative aspect-square overflow-hidden rounded-lg border border-gray-200 bg-white">
+            <div className="relative w-full">
+                <div className="relative w-full aspect-square overflow-hidden rounded-lg border border-gray-200 bg-white">
                     <img
                         src={images[selectedIndex]}
                         alt="Product"
