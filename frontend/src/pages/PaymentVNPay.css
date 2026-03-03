@@ -1,0 +1,15 @@
+/* Simple styling for PaymentVNPay page */
+.payment-container{max-width:1100px;margin:24px auto;display:grid;grid-template-columns:1fr 1fr 360px;gap:20px;font-family:Inter,Arial,Helvetica,sans-serif}
+.review-order,.shipping-details{background:#fff;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.06)}
+.order-summary{background:#fff;padding:18px;border-radius:6px;height:fit-content}
+.order-item{display:flex;gap:12px}
+.order-item img{width:88px;height:88px;object-fit:cover;border-radius:8px}
+.form-group{margin-bottom:10px}
+.form-group label{display:block;margin-bottom:6px;color:#374151}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px;border-radius:6px;border:1px solid #e5e7eb;background:#fff;color:#111}
+.form-group select{appearance:none;-webkit-appearance:none}
+.form-group input::placeholder,.form-group textarea::placeholder{color:#9ca3af}
+.confirm-button{width:100%;padding:12px;border-radius:8px;background:#111827;color:#fff;border:none;margin-top:12px}
+.save-button{background:#0ea5a2;color:#fff;padding:10px 14px;border-radius:8px;border:none}
+
+@media (max-width:1000px){.payment-container{grid-template-columns:1fr;}}

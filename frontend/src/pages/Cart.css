@@ -1,0 +1,42 @@
+/* Basic layout and styling for Cart page */
+.cart-container{
+  max-width:1200px;
+  margin:30px auto;
+  display:flex;
+  gap:24px;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+}
+.shopping-cart{
+  flex:1.6;
+  background:#fff;
+  padding:24px;
+  border-radius:12px;
+  box-shadow:0 6px 24px rgba(18,38,63,0.08);
+}
+.card-details{
+  flex:0.9;
+  background:linear-gradient(180deg,#5b5fe1,#6b7ff7);
+  color:#fff;
+  padding:24px;
+  border-radius:12px;
+  min-width:300px;
+}
+.shopping-cart h2, .card-details h2{margin:0 0 12px 0}
+.cart-items{display:flex;flex-direction:column;gap:12px}
+.cart-item{display:flex;align-items:center;gap:12px;padding:12px;background:#fbfdff;border-radius:10px}
+.cart-item img{width:72px;height:72px;object-fit:cover;border-radius:8px}
+.item-details h4{margin:0;font-size:16px}
+.item-details p{margin:4px 0;color:#6b7280}
+.item-quantity{display:flex;align-items:center;gap:6px}
+.item-quantity button{width:28px;height:28px;border-radius:6px;border:1px solid #e5e7eb;background:#fff}
+.item-price{margin-left:auto;font-weight:600}
+.form-group{margin-bottom:12px}
+.form-group label{display:block;margin-bottom:6px;color:rgba(255,255,255,0.9)}
+.form-group input,.form-group select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff}
+.summary p{display:flex;justify-content:space-between;color:rgba(255,255,255,0.95);margin:8px 0}
+.checkout-button{width:100%;padding:12px;border-radius:10px;border:none;background:#22c55e;color:#fff;font-weight:700;margin-top:12px}
+
+@media (max-width:900px){
+  .cart-container{flex-direction:column;padding:16px}
+  .card-details{order:2}
+}
