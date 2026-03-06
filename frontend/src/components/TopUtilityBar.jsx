@@ -9,11 +9,11 @@ export function TopUtilityBar() {
                     <div className="flex items-center gap-4">
                         <span className="text-gray-600">
                             Hi!{" "}
-                            <span className="text-blue-600 hover:text-blue-700 cursor-pointer">
+                            <span className="text-blue-600 hover:text-blue-700 cursor-pointer underline">
                                 Sign in
                             </span>{" "}
                             or{" "}
-                            <span className="text-blue-600 hover:text-blue-700 cursor-pointer">
+                            <span className="text-blue-600 hover:text-blue-700 cursor-pointer underline">
                                 register
                             </span>
                         </span>
@@ -42,14 +42,14 @@ export function TopUtilityBar() {
                             href="#"
                             className="flex items-center gap-1 text-gray-700 hover:text-blue-600"
                         >
-                            My Marketplace
+                            My eBay
                             <ChevronDown className="h-3 w-3" />
                         </a>
                         <button className="text-gray-700 hover:text-blue-600">
-                            <Bell className="h-4 w-4" />
+                            <Bell className="h-5 w-5" />
                         </button>
                         <button className="flex items-center gap-1 text-gray-700 hover:text-blue-600">
-                            <ShoppingCart className="h-4 w-4" />
+                            <ShoppingCart className="h-5 w-5" />
                         </button>
                     </div>
                 </div>

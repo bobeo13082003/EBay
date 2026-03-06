@@ -117,13 +117,13 @@ export function HeroSlider() {
         <div className="bg-white py-4 md:py-8">
             <div className="mx-auto max-w-[1400px] px-4">
                 <div
-                    className={`relative overflow-hidden rounded-2xl ${activeSlide.bgColor} px-6 py-12 md:px-12 md:py-16 lg:px-16 lg:py-20 transition-colors duration-500`}
+                    className={`relative h-[400px] overflow-hidden rounded-2xl ${activeSlide.bgColor} px-6 py-12 lg:px-16 lg:py-20 transition-colors duration-500`}
                 >
                     {/* Main Content Grid */}
                     <div className="relative z-10 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
                         {/* Left Column - Text Content */}
                         <div className="flex flex-col justify-center text-white">
-                            <h1 className="mb-4 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
+                            <h1 className="mb-4 text-4xl font-bold leading-tight">
                                 {activeSlide.title}
                             </h1>
                             <p className="mb-8 text-lg text-white/90 md:text-xl">
@@ -138,9 +138,9 @@ export function HeroSlider() {
 
                         {/* Right Column - Product Images */}
                         <div className="relative flex items-center justify-center">
-                            <div className="relative h-[300px] w-full md:h-[400px]">
+                            <div className="relative h-full w-full">
                                 {/* Main Product Image */}
-                                <div className="absolute left-1/2 top-1/2 z-10 h-[250px] w-[250px] -translate-x-1/2 -translate-y-1/2 md:h-[320px] md:w-[320px]">
+                                <div className="absolute left-1/2 top-1/2 z-10 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2">
                                     <img
                                         src={activeSlide.mainImage}
                                         alt={activeSlide.category}
@@ -149,7 +149,7 @@ export function HeroSlider() {
                                 </div>
 
                                 {/* Floating Image 1 - Top Left */}
-                                <div className="absolute left-0 top-0 z-0 h-[120px] w-[120px] md:h-[150px] md:w-[150px]">
+                                <div className="absolute left-0 top-0 z-0 h-[140px] w-[140px]">
                                     <img
                                         src={activeSlide.floatingImage1}
                                         alt="Product 1"
@@ -158,7 +158,7 @@ export function HeroSlider() {
                                 </div>
 
                                 {/* Floating Image 2 - Bottom Right */}
-                                <div className="absolute bottom-0 right-0 z-0 h-[120px] w-[120px] md:h-[150px] md:w-[150px]">
+                                <div className="absolute bottom-0 right-0 z-0 h-[140px] w-[140px]">
                                     <img
                                         src={activeSlide.floatingImage2}
                                         alt="Product 2"
@@ -185,8 +185,8 @@ export function HeroSlider() {
                                     onClick={() => goToSlide(index)}
                                     aria-label={`Go to slide ${index + 1}`}
                                     className={`h-2.5 w-2.5 rounded-full transition-all ${currentSlide === index
-                                            ? "w-8 bg-white"
-                                            : "bg-white/50 hover:bg-white/75"
+                                        ? "w-8 bg-white"
+                                        : "bg-white/50 hover:bg-white/75"
                                         }`}
                                 />
                             ))}

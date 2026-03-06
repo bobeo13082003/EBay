@@ -19,32 +19,27 @@ export function Header() {
 
                     {/* Search Bar */}
                     <div className="flex flex-1 items-center gap-2">
-                        <div className="flex flex-1 items-stretch rounded-md border border-gray-300 overflow-hidden">
-                            <div className="flex items-center border-r border-gray-300">
-                                <button className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                                    Shop by category
-                                    <ChevronDown className="h-4 w-4" />
-                                </button>
-                            </div>
+
+                        <div className="flex items-center">
+                            <button className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700">
+                                Shop by category
+                                <ChevronDown className="h-4 w-4" />
+                            </button>
+                        </div>
+
+                        <div className="flex flex-1 items-stretch overflow-hidden gap-4 relative w-full">
+                            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
                             <input
                                 type="text"
                                 placeholder="Search for anything"
-                                className="flex-1 px-4 py-2 text-sm outline-none"
+                                className="flex-1 pl-10 px-4 py-3 text-sm border-2 border-gray-700 rounded-3xl outline-none focus:outline-none focus:ring-0 focus-visible:outline-none placeholder:font-normal placeholder:text-base placeholder:text-gray-500"
                             />
-                            <button className="bg-blue-600 px-6 text-white hover:bg-blue-700 flex items-center gap-2">
-                                <Search className="h-4 w-4" />
+
+                            <button className="flex items-center justify-center h-12 w-40 gap-2 rounded-3xl bg-blue-600 px-6 font-medium text-white hover:bg-blue-700">
                                 Search
                             </button>
                         </div>
-                        <button className="text-gray-700 hover:text-blue-600 px-2">
-                            Advanced
-                        </button>
                     </div>
-
-                    {/* Cart */}
-                    <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600">
-                        <ShoppingCart className="h-5 w-5" />
-                    </button>
                 </div>
             </div>
         </div>

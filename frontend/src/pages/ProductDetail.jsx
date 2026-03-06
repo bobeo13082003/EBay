@@ -11,120 +11,6 @@ import { Link, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { AlertCircle, Heart, Info, ShoppingCart, Zap } from "lucide-react"
 
-// Mock product data
-const similarProducts = [
-    {
-        id: "1",
-        image: "https://images.unsplash.com/photo-1756321426794-6006d7d3f161?w=400",
-        title: "Mirrorless Camera Body 26MP with 4K Video",
-        price: "$1,899.99",
-        rating: 4.7
-    },
-    {
-        id: "2",
-        image: "https://images.unsplash.com/photo-1632222623518-bbbd5f1f2489?w=400",
-        title: "Professional Camera Tripod Carbon Fiber",
-        price: "$249.99",
-        rating: 4.9
-    },
-    {
-        id: "3",
-        image: "https://images.unsplash.com/photo-1745847768386-35ee12035cd5?w=400",
-        title: "Camera Lens 50mm f/1.4 Prime Portrait",
-        price: "$449.99",
-        rating: 4.8
-    },
-    {
-        id: "4",
-        image: "https://images.unsplash.com/photo-1606489131923-c661614706e5?w=400",
-        title: "Camera Bag Backpack Waterproof Professional",
-        price: "$89.99",
-        rating: 4.6
-    },
-    {
-        id: "5",
-        image: "https://images.unsplash.com/photo-1678599694227-549a5420f352?w=400",
-        title: "External Flash Speedlight TTL Compatible",
-        price: "$179.99",
-        rating: 4.5
-    },
-    {
-        id: "6",
-        image: "https://images.unsplash.com/photo-1739387161072-8de153f9cdd1?w=400",
-        title: "Memory Card 128GB UHS-II SD Card Fast",
-        price: "$49.99",
-        rating: 4.8
-    }
-]
-
-const reviews = [
-    {
-        id: "1",
-        reviewer: "PhotoEnthusiast123",
-        rating: 5,
-        title: "Outstanding camera for professionals",
-        content:
-            "This camera exceeded all my expectations. The image quality is phenomenal, especially in low light. The autofocus is incredibly fast and accurate. The 4K video capability is a huge plus. Highly recommended for anyone serious about photography.",
-        date: "Feb 18, 2026",
-        verified: true
-    },
-    {
-        id: "2",
-        reviewer: "JohnDoePhotography",
-        rating: 5,
-        title: "Best camera I've ever owned",
-        content:
-            "As a professional wedding photographer, I need equipment I can rely on. This camera has been flawless. The dual card slots give me peace of mind, and the battery life is excellent. The included lens is sharp and versatile.",
-        date: "Feb 15, 2026",
-        verified: true
-    },
-    {
-        id: "3",
-        reviewer: "NatureLover88",
-        rating: 4,
-        title: "Great camera, slight learning curve",
-        content:
-            "The image quality is superb and the build quality feels premium. There are a lot of features to learn, but once you get the hang of it, this camera is incredible. The only minor issue is the weight - it's a bit heavy for long shoots.",
-        date: "Feb 10, 2026",
-        verified: true
-    }
-]
-
-const sellerFeedback = {
-    positivePercentage: 98.7,
-    totalFeedback: 24583,
-    feedbackBreakdown: {
-        positive: 24263,
-        neutral: 198,
-        negative: 122
-    },
-    recentFeedback: [
-        {
-            id: "1",
-            type: "positive",
-            comment: "Fast shipping, item exactly as described. Great seller!",
-            date: "Feb 22, 2026",
-            buyer: "buyer_8234"
-        },
-        {
-            id: "2",
-            type: "positive",
-            comment:
-                "Excellent communication and packaging. Camera arrived in perfect condition.",
-            date: "Feb 20, 2026",
-            buyer: "photo_pro_45"
-        },
-        {
-            id: "3",
-            type: "positive",
-            comment:
-                "Very professional seller. Item shipped same day. Highly recommend!",
-            date: "Feb 18, 2026",
-            buyer: "camera_enthusiast"
-        }
-    ]
-}
-
 export function ProductDetail() {
     const { id } = useParams()
     const [loading, setLoading] = useState(true)
@@ -222,7 +108,6 @@ export function ProductDetail() {
         <div className="min-h-screen bg-white">
             <TopUtilityBar />
             <Header />
-            <CategoryNav />
 
             {/* Main Content */}
             <div className="mx-auto max-w-[1400px] px-4 py-8">
@@ -334,35 +219,11 @@ export function ProductDetail() {
                     />
                 </div>
 
-                {/* Reviews Section */}
-                {/* <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
-                    <Reviews
-                        averageRating={4.8}
-                        totalReviews={1847}
-                        ratingDistribution={[1245, 458, 98, 32, 14]}
-                        reviews={reviews}
-                    />
-                </div> */}
-
                 {/* About this seller + Seller feedback */}
-                <div className="bg-[#F7F7F7] px-5 py-5 grid grid-cols-1 gap-8 lg:grid-cols-12 mb-10">
-                    <div className="lg:col-span-4">
-                        <h1>About this seller</h1>
-
-                    </div>
-                    <div className="lg:col-span-8">
-                        <h1>Feedback</h1>
-                    </div>
-                </div>
-
-                {/* Seller Feedback Section */}
-                {/* <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
-                    <SellerFeedback {...sellerFeedback} />
-                </div> */}
-                <div className="mb-8 bg-[#F7F7F7] px-5 py-5">
+                <div className="mb-8 bg-[#F7F7F7] px-12 py-10">
                     <SellerFeedback
-                        seller={sellerInfo.id}
-                        product={productInfo.id}
+                        sellerId={sellerInfo.id}
+                        productId={productInfo.id}
                     />
                 </div>
             </div>

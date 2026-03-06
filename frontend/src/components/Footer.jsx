@@ -209,7 +209,7 @@ export function Footer() {
                 <div className="mt-8 border-t border-gray-200 pt-8">
                     <div className="flex flex-wrap items-center justify-between gap-4">
                         <p className="text-xs text-gray-600">
-                            Copyright © 1995-2026 Marketplace Inc. All Rights Reserved.
+                            Copyright © 1995-2026 eBay Inc. All Rights Reserved.
                         </p>
                         <div className="flex flex-wrap gap-4">
                             <a href="#" className="text-xs text-gray-600 hover:text-blue-600">

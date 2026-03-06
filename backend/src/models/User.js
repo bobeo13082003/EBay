@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema(
         email: { type: String, required: true, unique: true, trim: true, match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
         password: { type: String, required: true },
         role: { type: String, default: 'user', enum: ['admin', 'seller', 'user'] },
-        avatarUrl: { type: String, trim: true, default: '' },
+        avatarURL: { type: String, trim: true, default: '' },
         isVerified: { type: Boolean, default: 'false' },
         verificationToken: { type: String },
         action: { type: String, default: "lock", enum: ["lock", "unlock"] },
