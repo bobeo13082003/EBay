@@ -335,18 +335,35 @@ export function ProductDetail() {
                 </div>
 
                 {/* Reviews Section */}
-                <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
+                {/* <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
                     <Reviews
                         averageRating={4.8}
                         totalReviews={1847}
                         ratingDistribution={[1245, 458, 98, 32, 14]}
                         reviews={reviews}
                     />
+                </div> */}
+
+                {/* About this seller + Seller feedback */}
+                <div className="bg-[#F7F7F7] px-5 py-5 grid grid-cols-1 gap-8 lg:grid-cols-12 mb-10">
+                    <div className="lg:col-span-4">
+                        <h1>About this seller</h1>
+
+                    </div>
+                    <div className="lg:col-span-8">
+                        <h1>Feedback</h1>
+                    </div>
                 </div>
 
                 {/* Seller Feedback Section */}
-                <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
+                {/* <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
                     <SellerFeedback {...sellerFeedback} />
+                </div> */}
+                <div className="mb-8 bg-[#F7F7F7] px-5 py-5">
+                    <SellerFeedback
+                        seller={sellerInfo.id}
+                        product={productInfo.id}
+                    />
                 </div>
             </div>
 

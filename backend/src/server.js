@@ -5,6 +5,7 @@ const cors = require("cors");
 const connectDB = require("./dbConnect/db")
 const db = require("./models")
 const productRoute = require('./routers/product.route')
+const reviewRoute = require('./routers/review.route')
 
 const app = express()
 app.use(cors())
@@ -13,6 +14,7 @@ app.get('/', (req, res) => {
     res.status(200).json({ message: 'Welcome to Restful API server' });
 });
 app.use('/', productRoute)
+app.use('/', reviewRoute)
 
 const PORT = process.env.PORT || 9999;
 connectDB().then(() => {
