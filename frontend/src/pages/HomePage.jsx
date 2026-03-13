@@ -123,18 +123,27 @@ export default function HomePage() {
             <TopUtilityBar />
             <Header />
             <CategoryNav />
+
             {/* <HeroBanner /> */}
             <HeroSlider />
+
             <FeaturedCategories />
+
             {/* <ProductSection title="Today's Deals" products={todaysDeals} /> */}
+
             <ProductSection title="Today's Deals" subheading='All With Free Shipping' products={products} />
+
             <div className="h-px bg-gray-200" />
+
             <ProductSection title="Trending Now" products={trendingProducts} />
+
             <PromoBanner />
+
             <ProductSection
                 title="Recommended for you"
                 products={recommendedProducts}
             />
+
             <Footer />
         </div>
     )

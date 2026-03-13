@@ -54,16 +54,17 @@ export function ProductDetail() {
         isAuction,
         quantity,
         status,
+        createdAt,
         updatedAt
     } = product
 
-    const updateDate = updatedAt ?? product.createdAt
+    const updateDate = updatedAt ?? createdAt
 
     const productImages = images || []
     const sellerInfo = {
-        id: product?.sellerId._id,
-        username: product?.sellerId.username,
-        avatarUrl: product?.sellerId.avatarURL
+        id: product?.sellerId?._id,
+        username: product?.sellerId?.username,
+        avatarUrl: product?.sellerId?.avatarURL
     }
     const productInfo = {
         id: product?._id,
@@ -125,20 +126,26 @@ export function ProductDetail() {
                         </div>
 
                         <div className="flex items-center gap-4 pb-4 border-b border-gray-300 mb-4">
-                            <img
-                                src={sellerInfo.avatarUrl}
-                                alt={title}
-                                className="w-12 h-12 rounded-full"
-                            />
+                            {!sellerInfo.avatarUrl ? (
+                                <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                                    <span className="text-gray-600 text-sm font-semibold">
+                                        {sellerInfo?.username?.charAt(0)?.toUpperCase()}
+                                    </span>
+                                </div>
+                            ) : (
+                                <img
+                                    src={sellerInfo.avatarUrl}
+                                    alt={title}
+                                    className="w-12 h-12 rounded-full"
+                                />
+                            )}
+
                             <div className="flex flex-col gap-1">
                                 <span className="text-base font-bold text-gray-800">
                                     {sellerInfo.username}
                                 </span>
 
-                                <Link
-                                    to={`/seller/${sellerInfo.username}`}
-                                    className="text-base text-gray-800 underline hover:text-gray-500 cursor-pointer"
-                                >
+                                <Link className="text-base text-gray-800 underline hover:text-gray-500 cursor-pointer">
                                     Seller's other items
                                 </Link>
                             </div>

@@ -49,10 +49,20 @@ export function SellerFeedback({ sellerId, productId }) {
 
                 <div className="flex flex-col">
                     <div className="flex flex-row items-center gap-6">
-                        <img
+                        {/* <img
                             src={seller?.avatarURL}
                             className="w-32 h-32 rounded-full"
-                        />
+                        /> */}
+                        {seller?.avatarURL ? (
+                            <img
+                                src={seller.avatarURL}
+                                className="w-32 h-32 rounded-full object-cover"
+                            />
+                        ) : (
+                            <div className="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center text-5xl">
+                                {seller?.username?.charAt(0)?.toUpperCase()}
+                            </div>
+                        )}
                         <div className="flex flex-col gap-1">
                             <span className="text-2xl font-semibold text-gray-800">
                                 {seller?.username}
@@ -73,32 +83,34 @@ export function SellerFeedback({ sellerId, productId }) {
                 <h2 className="mb-6 text-2xl font-bold text-gray-900">Seller Feedback</h2>
 
                 <div className="p-1 rounded-md">
-                    {reviews?.map(review => (
-                        <div key={review._id} className="mb-6">
-                            <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
-                                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-green-700 text-white">
-                                    <Plus size={14} />
-                                </span>
+                    {!reviews || reviews.length === 0 ? (
+                        <p className="text-gray-500">No reviews yet</p>
+                    ) : (
+                        reviews.map(review => (
+                            <div key={review._id} className="mb-6">
+                                <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
+                                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-green-700 text-white">
+                                        <Plus size={14} />
+                                    </span>
 
-                                <span className="font-medium text-sm text-gray-500">
-                                    {review.reviewerId.username}
-                                </span>
+                                    <span className="font-medium text-sm text-gray-500">
+                                        {review.reviewerId.username}
+                                    </span>
 
-                                <span className="font-normal text-sm text-gray-500">
-                                    · {formatMonthYear(review.createdAt)}
-                                </span>
+                                    <span className="font-normal text-sm text-gray-500">
+                                        · {formatMonthYear(review.createdAt)}
+                                    </span>
 
-                                <span className="ml-2">
-                                    <StarRating rating={review.rating} />
-                                </span>
+                                    <span className="ml-2">
+                                        <StarRating rating={review.rating} />
+                                    </span>
+                                </div>
+
+                                <p className="text-gray-900 font-medium">
+                                    {review.comment}
+                                </p>
                             </div>
-
-                            <p className="text-gray-900 font-medium">
-                                {review.comment}
-                            </p>
-                        </div>
-                    ))}
-
+                        )))}
                 </div>
             </div>
         </div >

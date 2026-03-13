@@ -1,13 +1,10 @@
 export function ProductCard({ image, title, price, originalPrice, discount }) {
     return (
-        <a
-            href="#"
-            className="group flex-shrink-0 w-[260px]"
-        >
+        <div className="group flex-shrink-0 w-[260px]"        >
             {/* Image Container */}
             <div className="relative w-[260px] h-[260px] overflow-hidden rounded-xl bg-gray-100">
                 <img
-                    src={image}
+                    src={`${image}/300`}
                     alt={title}
                     className="
                         h-full
@@ -45,6 +42,6 @@ export function ProductCard({ image, title, price, originalPrice, discount }) {
                     )}
                 </div>
             </div>
-        </a>
+        </div>
     );
 }

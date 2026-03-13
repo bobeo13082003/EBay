@@ -5,6 +5,7 @@ const cors = require("cors");
 const connectDB = require("./dbConnect/db")
 const db = require("./models")
 const productRoute = require('./routers/product.route')
+const categoryRoute = require('./routers/category.route')
 const reviewRoute = require('./routers/review.route')
 const userRoute = require('./routers/user.route')
 
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
     res.status(200).json({ message: 'Welcome to Restful API server' });
 });
 app.use('/', productRoute)
+app.use('/categories', categoryRoute)
 app.use('/', reviewRoute)
 app.use('/', userRoute)
 

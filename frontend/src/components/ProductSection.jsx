@@ -24,9 +24,6 @@ export function ProductSection({ title, subheading, products }) {
                         <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
                         <h3 className="text-base text-gray-700 mt-1 font-normal">{subheading}</h3>
                     </div>
-                    <a href="#" className="text-sm text-blue-600 hover:text-blue-700">
-                        See all
-                    </a>
                 </div>
 
                 <div className="relative">
@@ -44,7 +41,7 @@ export function ProductSection({ title, subheading, products }) {
                     >
                         {products.map((product, index) => (
                             <Link
-                                key={product._id}
+                                key={index}
                                 to={`/products/${product._id}`}
                             >
                                 <ProductCard

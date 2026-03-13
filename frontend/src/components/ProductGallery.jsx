@@ -26,7 +26,7 @@ export function ProductGallery({ images }) {
                             }`}
                     >
                         <img
-                            src={image}
+                            src={`${image}/300`}
                             alt={`Product ${index + 1}`}
                             className="h-full w-full rounded-2xl object-cover"
                         />
@@ -38,7 +38,7 @@ export function ProductGallery({ images }) {
             <div className="relative w-full">
                 <div className="relative w-full aspect-square overflow-hidden rounded-lg border border-gray-200 bg-white">
                     <img
-                        src={images[selectedIndex]}
+                        src={`${images[selectedIndex]}/300`}
                         alt="Product"
                         className="h-full w-full object-contain"
                     />

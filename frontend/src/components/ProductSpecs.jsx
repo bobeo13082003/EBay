@@ -37,9 +37,11 @@ export function ProductSpecs({ description, categoryName, categoryDescription, u
                         <p className="whitespace-pre-line text-sm leading-relaxed text-gray-700">
                             Seller assumes all responsibility for this listing.
                         </p>
-                        <p className="whitespace-pre-line text-sm leading-relaxed text-gray-700">
-                            Last updated on {formatToPST(updateDate)}
-                        </p>
+                        {updateDate && (
+                            <p className="whitespace-pre-line text-sm leading-relaxed text-gray-700">
+                                Last updated on {formatToPST(updateDate)}
+                            </p>
+                        )}
                     </div>
                     <div>
                         <p className="whitespace-pre-line text-base leading-relaxed text-gray-700">
