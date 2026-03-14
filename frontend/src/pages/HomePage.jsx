@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { TopUtilityBar } from "../components/TopUtilityBar"
 import { Header } from "../components/Header"
 import { ProductSection } from "../components/ProductSection"
@@ -7,7 +7,7 @@ import { CategoryNav } from "../components/CategoryNav"
 import { FeaturedCategories } from "../components/FeaturedCategories"
 import { PromoBanner } from "../components/PromoBanner"
 import { HeroSlider } from "../components/HeroSlider"
-import { useEffect } from "react"
+import { ProductToolbar } from "../components/ProductToolbar"
 
 // Mock product data
 const trendingProducts = [
@@ -100,8 +100,28 @@ const recommendedProducts = [
     }
 ]
 
+const CATEGORY_IMAGES = {
+    Fashion:
+        "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=500&h=500&fit=crop",
+    Electronics:
+        "https://plus.unsplash.com/premium_photo-1679079456083-9f288e224e96?w=500&h=500&fit=crop",
+    "Home & Kitchen":
+        "https://images.unsplash.com/photo-1681718601850-dc32bcf68ad8?w=500&h=500&fit=crop",
+    "Health & Fitness":
+        "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=500&h=500&fit=crop",
+    Entertainment:
+        "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=500&h=500&fit=crop",
+};
+
 export default function HomePage() {
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [viewMode, setViewMode] = useState("grid");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [showFilters, setShowFilters] = useState(false);
+    const [sortBy, setSortBy] = useState("featured");
+    const [priceRange, setPriceRange] = useState([0, 1000]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -110,6 +130,11 @@ export default function HomePage() {
                 const productData = await productRes.json()
 
                 setProducts(productData)
+
+                const categoryRes = await fetch('http://localhost:9999/categories')
+                const categoryData = await categoryRes.json()
+
+                setCategories(categoryData)
             } catch (error) {
                 console.error("Error fetching data:", error)
             }
@@ -118,20 +143,68 @@ export default function HomePage() {
         fetchData();
     }, [])
 
+    const sortedProducts = useMemo(() => {
+        const filtered = products.filter(product => {
+            const categoryId = product.categoryId?._id || product.category;
+
+            const matchesCategory = selectedCategory
+                ? categoryId === selectedCategory
+                : true;
+
+            const matchesSearch = searchQuery
+                ? product.title.toLowerCase().includes(searchQuery.toLowerCase())
+                : true;
+
+            return matchesCategory && matchesSearch;
+        });
+
+        if (sortBy === "featured") {
+            return filtered;
+        }
+        return [...filtered].sort((a, b) => {
+            if (sortBy === "price-low") return a.price - b.price;
+            if (sortBy === "price-high") return b.price - a.price;
+            if (sortBy === "newest") return b.createdAt - a.createdAt;
+            return 0;
+        });
+    }, [products, selectedCategory, searchQuery, sortBy]);
+
+    const selectedCategoryName = selectedCategory
+        ? categories.find(c => c._id === selectedCategory)?.name
+        : "Today's Deals";
+
     return (
         <div className="min-h-screen bg-gray-50">
             <TopUtilityBar />
-            <Header />
+            <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <CategoryNav />
 
             {/* <HeroBanner /> */}
             <HeroSlider />
 
-            <FeaturedCategories />
+            <FeaturedCategories
+                categories={categories}
+                categoryImages={CATEGORY_IMAGES}
+                selectedCategory={selectedCategory}
+                onSelectCategory={setSelectedCategory}
+            />
 
-            {/* <ProductSection title="Today's Deals" products={todaysDeals} /> */}
+            <ProductToolbar
+                showFilters={showFilters}
+                setShowFilters={setShowFilters}
+                viewMode={viewMode}
+                setViewMode={setViewMode}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                onReset={() => {
+                    setSelectedCategory(null);
+                    setPriceRange([0, 1000]);
+                    setSortBy("featured");
+                    setSearchQuery("");
+                }}
+            />
 
-            <ProductSection title="Today's Deals" subheading='All With Free Shipping' products={products} />
+            <ProductSection title={selectedCategoryName} subheading='All With Free Shipping' products={sortedProducts} viewMode={viewMode} />
 
             <div className="h-px bg-gray-200" />
 

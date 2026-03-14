@@ -1,7 +1,7 @@
-import { Search, ChevronDown, ShoppingCart } from "lucide-react"
+import { Search, ChevronDown } from "lucide-react"
 import { Link } from "react-router-dom"
 
-export function Header() {
+export function Header({ searchQuery, setSearchQuery }) {
     return (
         <div className="border-b border-gray-200 bg-white">
             <div className="mx-auto max-w-[1400px] px-4">
@@ -32,6 +32,8 @@ export function Header() {
                             <input
                                 type="text"
                                 placeholder="Search for anything"
+                                value={searchQuery || ""}
+                                onChange={(e) => setSearchQuery && setSearchQuery(e.target.value)}
                                 className="flex-1 pl-10 px-4 py-3 text-sm border-2 border-gray-700 rounded-3xl outline-none focus:outline-none focus:ring-0 focus-visible:outline-none placeholder:font-normal placeholder:text-base placeholder:text-gray-500"
                             />
 
