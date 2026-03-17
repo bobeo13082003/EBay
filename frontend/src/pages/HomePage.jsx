@@ -117,7 +117,6 @@ export default function HomePage() {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [viewMode, setViewMode] = useState("grid");
-    const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [showFilters, setShowFilters] = useState(false);
     const [sortBy, setSortBy] = useState("featured");
@@ -151,11 +150,7 @@ export default function HomePage() {
                 ? categoryId === selectedCategory
                 : true;
 
-            const matchesSearch = searchQuery
-                ? product.title.toLowerCase().includes(searchQuery.toLowerCase())
-                : true;
-
-            return matchesCategory && matchesSearch;
+            return matchesCategory;
         });
 
         if (sortBy === "featured") {
@@ -167,7 +162,7 @@ export default function HomePage() {
             if (sortBy === "newest") return b.createdAt - a.createdAt;
             return 0;
         });
-    }, [products, selectedCategory, searchQuery, sortBy]);
+    }, [products, selectedCategory, sortBy]);
 
     const selectedCategoryName = selectedCategory
         ? categories.find(c => c._id === selectedCategory)?.name
@@ -176,7 +171,7 @@ export default function HomePage() {
     return (
         <div className="min-h-screen bg-gray-50">
             <TopUtilityBar />
-            <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <Header />
             <CategoryNav />
 
             {/* <HeroBanner /> */}

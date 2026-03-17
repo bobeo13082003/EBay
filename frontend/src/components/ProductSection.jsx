@@ -32,7 +32,7 @@ export function ProductSection({ title, subheading, products, viewMode = "grid" 
                     </div>
                 </div>
 
-                {products.length === 0 ? (
+                {products.length === 0 && (
                     <div className="py-10 text-center">
                         <div className="text-gray-400 mb-4">
                             <Search size={48} className="mx-auto" />
@@ -44,7 +44,9 @@ export function ProductSection({ title, subheading, products, viewMode = "grid" 
                             We couldn't find any products matching your criteria.
                         </p>
                     </div>
-                ) : viewMode === "grid" ? (
+                )}
+
+                {products.length > 0 && viewMode === "grid" && (
                     <div className="relative">
                         <button
                             onClick={() => scroll("left")}
@@ -81,7 +83,9 @@ export function ProductSection({ title, subheading, products, viewMode = "grid" 
                             <ChevronRight className="h-5 w-5 text-gray-700" />
                         </button>
                     </div>
-                ) : (
+                )}
+
+                {products.length > 0 && viewMode == "list" && (
                     <div className="flex flex-col gap-6">
                         {paginatedProducts.map((product, index) => (
                             <div
@@ -89,11 +93,14 @@ export function ProductSection({ title, subheading, products, viewMode = "grid" 
                                 className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-300"
                             >
                                 <div className="flex flex-col sm:flex-row">
-                                    <Link to={`/products/${product._id}`} className="sm:w-52 h-52 flex-shrink-0 bg-gray-100 flex items-center justify-center p-4">
+                                    <Link
+                                        to={`/products/${product._id}`}
+                                        className="sm:w-52 aspect-square flex-shrink-0 overflow-hidden"
+                                    >
                                         <img
                                             src={`${product.images?.[0]}/300`}
                                             alt={product.title}
-                                            className="max-w-full max-h-full object-contain"
+                                            className="w-full h-full object-cover"
                                         />
                                     </Link>
                                     <div className="p-6 flex-grow flex flex-col">
