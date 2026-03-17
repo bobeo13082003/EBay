@@ -1,16 +1,22 @@
 const express = require('express')
+const app = express();
+app.use(express.json());
 require("dotenv").config();
 
 const cors = require("cors");
-const connectDB = require("./dbConnect/db")
-const db = require("./models")
+const connectDB = require("./config/db");
+
+const authRouters = require("./routers/auth")
+const addressRouters = require("./routers/address")
 const productRoute = require('./routers/product.route')
 const categoryRoute = require('./routers/category.route')
 const reviewRoute = require('./routers/review.route')
 const userRoute = require('./routers/user.route')
 
-const app = express()
 app.use(cors())
+
+app.use("/api/auth", authRouters)
+app.use("/api/addresses", addressRouters)
 
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Welcome to Restful API server' });

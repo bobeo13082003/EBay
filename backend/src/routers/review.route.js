@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getReviewByProduct } = require('../controllers/reviewController')
+const { getReviewByProduct } = require('../controllers/review')
 
 router.get('/products/:id/reviews', getReviewByProduct)
 

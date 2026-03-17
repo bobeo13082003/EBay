@@ -39,7 +39,7 @@ export function Header() {
                 <div className="flex items-center gap-6 py-3">
                     {/* Logo */}
                     <div className="flex-shrink-0">
-                        <Link to="/" className="flex items-center">
+                        <Link to="/home" className="flex items-center">
                             <img
                                 src="/images/logo.png"
                                 alt="Ebay"

@@ -5,4 +5,4 @@ const categorySchema = mongoose.Schema({
     description: { type: String, trim: true }
 })
 
-module.exports = mongoose.model('Category', categorySchema, 'categories')
+module.exports.Categories = mongoose.model('Category', categorySchema, 'categories')

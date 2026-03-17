@@ -1,3 +1,5 @@
+import { ToastContainer } from "react-toastify";
+import { Outlet } from "react-router-dom";
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
@@ -8,13 +10,14 @@ import SearchResults from './pages/SearchResult'
 function App() {
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products/:id" element={<ProductDetail />} />
-        <Route path="/search" element={<SearchResults />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <Outlet />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+      />
+    </>
   )
 }
 
