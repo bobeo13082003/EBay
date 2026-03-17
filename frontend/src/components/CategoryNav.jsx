@@ -48,7 +48,6 @@ export function CategoryNav() {
                         {categories.map(category => (
                             <a
                                 key={category}
-                                href="#"
                                 className="whitespace-nowrap text-sm text-gray-700 hover:text-blue-600 hover:underline underline-offset-8"
                             >
                                 {category}

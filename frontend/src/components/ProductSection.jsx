@@ -12,6 +12,7 @@ export function ProductSection({ title, subheading, products, viewMode = "grid" 
     const paginatedProducts = viewMode === "list"
         ? products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
         : products;
+
     const scroll = direction => {
         if (scrollRef.current) {
             const scrollAmount = 400
