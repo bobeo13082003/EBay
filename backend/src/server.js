@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 app.use('/', productRoute)
 app.use('/categories', categoryRoute)
 app.use('/', reviewRoute)
-app.use('/', userRoute)
+app.use('/api/user', userRoute)
 
 const PORT = process.env.PORT || 9999;
 connectDB().then(() => {
