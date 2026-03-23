@@ -14,3 +14,11 @@ export const loginGoogleApi = (credential) =>
 
 export const loginApi = (data) =>
     axios.post("/auth/login", data);
+
+export const getProfile = () => {
+    return axios.get("/user");
+};
+
+export const updateProfile = (data) => {
+    return axios.put("/user", data);
+};

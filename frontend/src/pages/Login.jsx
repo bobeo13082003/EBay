@@ -38,7 +38,7 @@ export default function Login() {
 
         if (login.fulfilled.match(res)) {
             toastSuccess("Login successful");
-            navigate("/");
+            navigate("/home");
         } else {
             toastError(res.payload);
         }
@@ -52,7 +52,7 @@ export default function Login() {
 
         if (loginGoogle.fulfilled.match(res)) {
             toastSuccess("Login with Google successful");
-            navigate("/");
+            navigate("/home");
         } else {
             toastError(res.payload);
         }
