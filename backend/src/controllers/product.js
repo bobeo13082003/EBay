@@ -75,3 +75,37 @@ exports.getProductSoldQuantity = async (req, res) => {
         });
     }
 }
+
+// get similar products
+exports.getSimilarProducts = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const currentProduct = await Products.findById(id)
+
+        if (!currentProduct) {
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found',
+                error: error.message
+            })
+        }
+
+        const similarProducts = await Products.find({
+            categoryId: currentProduct.categoryId,
+            _id: { $ne: id },
+            status: 'available'
+        })
+            .limit(5)
+            .sort({ createdAt: -1 })
+
+        res.status(200).json(similarProducts)
+    } catch (error) {
+        console.error('Error getting similar products:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to retrieve products',
+            error: error.message
+        });
+    }
+}

@@ -58,12 +58,12 @@ export function TopUtilityBar() {
                             </>
                         </span>
                         <span className="text-gray-400">|</span>
-                        <a href="#" className="text-gray-700 hover:text-blue-600">
+                        <span className="text-gray-700 hover:text-blue-600">
                             Daily Deals
-                        </a>
-                        <a href="#" className="text-gray-700 hover:text-blue-600">
+                        </span>
+                        <span className="text-gray-700 hover:text-blue-600">
                             Help & Contact
-                        </a>
+                        </span>
                     </div>
 
                     {/* Right side */}

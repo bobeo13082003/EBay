@@ -22,9 +22,13 @@ export function Header() {
         fetchData();
     }, [])
 
-    const filteredProducts = products.filter((product) =>
-        product.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredProducts = products.filter((product) => {
+        const query = searchQuery.toLowerCase()
+        const matchesTitle = product.title.toLowerCase().includes(query)
+        const matchesId = product._id?.toString().toLowerCase().includes(query)
+
+        return matchesTitle || matchesId;
+    }).slice(0, 10);
 
     const handleSubmit = (e) => {
         e.preventDefault();

@@ -46,12 +46,12 @@ export function CategoryNav() {
                         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                     >
                         {categories.map(category => (
-                            <a
+                            <span
                                 key={category}
                                 className="whitespace-nowrap text-sm text-gray-700 hover:text-blue-600 hover:underline underline-offset-8"
                             >
                                 {category}
-                            </a>
+                            </span>
                         ))}
                     </div>
 
