@@ -1,6 +1,7 @@
 import { Filter, ChevronDown, Grid, List, RefreshCw } from "lucide-react"
-import { Dropdown, Button } from 'antd';
+import { Dropdown, Button, Slider, Space } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+
 export function ProductToolbar({
     showFilters,
     setShowFilters,
@@ -8,7 +9,9 @@ export function ProductToolbar({
     setViewMode,
     sortBy,
     setSortBy,
-    onReset
+    onReset,
+    priceRange,
+    setPriceRange
 }) {
 
     const sortItems = [
@@ -52,28 +55,47 @@ export function ProductToolbar({
             </div>
 
             <div className="flex items-center w-full md:w-auto">
-                <div className="text-sm text-gray-500 mr-2">Sort by:</div>
 
-                <Dropdown
-                    menu={{
-                        items: sortItems,
-                        onClick: ({ key }) => setSortBy(key),
-                    }}
-                    trigger={["click"]}
-                >
-                    <Button className="flex items-center text-sm">
-                        {sortItems.find(i => i.key === sortBy)?.label}
-                        <DownOutlined className="ml-1" />
-                    </Button>
-                </Dropdown>
+                <div className="hidden sm:flex items-center space-x-4 min-w-[250px] whitespace-nowrap mr-10">
+                    <span className="text-sm text-gray-500 flex-shrink-0">Price:</span>
+                    <Slider
+                        range
+                        min={0}
+                        max={5000}
+                        step={100}
+                        value={priceRange}
+                        onChange={(value) => setPriceRange(value)}
+                        className="flex-grow min-w-[100px]"
+                    />
+                    <span className="text-sm font-medium text-gray-700 flex-shrink-0">
+                        ${priceRange[0]} - ${priceRange[1]}
+                    </span>
+                </div>
 
-                <button
-                    onClick={onReset}
-                    className="ml-2 flex items-center text-sm text-[#0053A0] hover:underline"
-                >
-                    <RefreshCw className="mr-1 h-3 w-3" />
-                    Reset
-                </button>
+                <div className="flex items-center">
+                    <div className="text-sm text-gray-500 mr-2">Sort by:</div>
+
+                    <Dropdown
+                        menu={{
+                            items: sortItems,
+                            onClick: ({ key }) => setSortBy(key),
+                        }}
+                        trigger={["click"]}
+                    >
+                        <Button className="flex items-center text-sm">
+                            {sortItems.find(i => i.key === sortBy)?.label}
+                            <DownOutlined className="ml-1" />
+                        </Button>
+                    </Dropdown>
+
+                    <button
+                        onClick={onReset}
+                        className="ml-2 flex items-center text-sm text-[#0053A0] hover:underline"
+                    >
+                        <RefreshCw className="mr-1 h-3 w-3" />
+                        Reset
+                    </button>
+                </div>
             </div>
         </div>
     )

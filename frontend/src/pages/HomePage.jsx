@@ -121,7 +121,7 @@ export default function HomePage() {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [showFilters, setShowFilters] = useState(false);
     const [sortBy, setSortBy] = useState("featured");
-    const [priceRange, setPriceRange] = useState([0, 1000]);
+    const [priceRange, setPriceRange] = useState([0, 5000]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -151,19 +151,22 @@ export default function HomePage() {
                 ? categoryId === selectedCategory
                 : true;
 
-            return matchesCategory;
+            const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1]
+
+            return matchesCategory && matchesPrice;
         });
 
         if (sortBy === "featured") {
             return filtered;
         }
+
         return [...filtered].sort((a, b) => {
             if (sortBy === "price-low") return a.price - b.price;
             if (sortBy === "price-high") return b.price - a.price;
             if (sortBy === "newest") return b.createdAt - a.createdAt;
             return 0;
         });
-    }, [products, selectedCategory, sortBy]);
+    }, [products, selectedCategory, sortBy, priceRange]);
 
     const selectedCategoryName = selectedCategory
         ? categories.find(c => c._id === selectedCategory)?.name
@@ -191,9 +194,11 @@ export default function HomePage() {
                 setViewMode={setViewMode}
                 sortBy={sortBy}
                 setSortBy={setSortBy}
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
                 onReset={() => {
                     setSelectedCategory(null);
-                    setPriceRange([0, 1000]);
+                    setPriceRange([0, 5000]);
                     setSortBy("featured");
                     setSearchQuery("");
                 }}

@@ -70,8 +70,12 @@ export function SellerFeedback({ sellerId, productId }) {
                         </div>
                     </div>
                     <span className="flex items-center gap-2 mt-5 text-base">
-                        <Calendar size={16} />
-                        Joined {formatMonthYear(seller?.createdAt)}
+                        {seller?.createdAt && (
+                            <div>
+                                <Calendar size={16} />
+                                Joined {formatMonthYear(seller?.createdAt)}
+                            </div>
+                        )}
                     </span>
 
                     <button className="mt-5 mb-2 flex w-full items-center justify-center gap-2 rounded-3xl bg-blue-600 px-6 py-3 font-semibold text-white text-base hover:bg-blue-700">
