@@ -10,10 +10,10 @@ import { ProductDetail } from "../pages/ProductDetail";
 import SearchResults from "../pages/SearchResult";
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Navigate to="/login" replace />,
-    },
+    // {
+    //     path: "/",
+    //     element: <Navigate to="/login" replace />,
+    // },
     {
         // element: <AuthLayout />,
         children: [

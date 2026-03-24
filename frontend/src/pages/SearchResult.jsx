@@ -42,9 +42,14 @@ export default function SearchResults() {
     }, [])
 
     useEffect(() => {
-        let result = products.filter((product) =>
-            product.title.toLowerCase().includes(keyword.toLowerCase())
-        );
+        const searchKey = keyword.toLowerCase()
+
+        let result = products.filter((product) => {
+            const matchesTitle = product.title.toLowerCase().includes(searchKey)
+            const matchesId = product._id?.toString().toLowerCase().includes(searchKey)
+
+            return matchesTitle || matchesId
+        });
 
         if (sortOrder === "lowToHigh") {
             result.sort((a, b) => a.price - b.price);
