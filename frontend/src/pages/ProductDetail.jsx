@@ -1,21 +1,20 @@
 import { TopUtilityBar } from "../components/TopUtilityBar"
 import { Header } from "../components/Header"
-import { CategoryNav } from "../components/CategoryNav"
 import { ProductGallery } from "../components/ProductGallery"
 import { ProductSpecs } from "../components/ProductSpecs"
 import { SimilarItems } from "../components/SimilarItems"
-import { Reviews } from "../components/Reviews"
 import { SellerFeedback } from "../components/SellerFeedback"
 import { Footer } from "../components/Footer"
 import { Link, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { AlertCircle, Heart, Info, ShoppingCart, Zap } from "lucide-react"
+import { Heart, Info } from "lucide-react"
 
 export function ProductDetail() {
     const { id } = useParams()
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [product, setProduct] = useState(null)
+    const [similarProduct, setSimilarProduct] = useState(null)
     const [soldQuantity, setSoldQuantity] = useState(0)
     const [orderQuantity, setOrderQuantity] = useState(1)
     const [quantityError, setQuantityError] = useState(null)
@@ -26,16 +25,19 @@ export function ProductDetail() {
         try {
             setLoading(true)
 
-            const [productRes, soldRes] = await Promise.all([
+            const [productRes, soldRes, similarRes] = await Promise.all([
                 fetch(`http://localhost:9999/products/${id}`),
-                fetch(`http://localhost:9999/products/${id}/sold-quantity`)
+                fetch(`http://localhost:9999/products/${id}/sold-quantity`),
+                fetch(`http://localhost:9999/products/${id}/similar`)
             ])
 
             const productData = await productRes.json()
             const soldData = await soldRes.json()
+            const similarData = await similarRes.json()
 
             setProduct(productData)
             setSoldQuantity(soldData[0]?.totalSold || 0)
+            setSimilarProduct(similarData)
         } catch (error) {
             console.error("Error fetching data:", error)
             setError('Cannot load product detail')
@@ -216,12 +218,15 @@ export function ProductDetail() {
                 </div>
 
                 {/* Similar Items */}
-                {/* <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
-                    <SimilarItems
-                        title="Similar sponsored items"
-                        products={similarProducts}
-                    />
-                </div> */}
+                {similarProduct.length !== 0 && (
+                    <div className="mb-5">
+                        <SimilarItems
+                            title='Explore related items'
+                            subheading='You might also like'
+                            products={similarProduct}
+                        />
+                    </div>
+                )}
 
                 {/* Product Details Section */}
                 <div className="mb-8">

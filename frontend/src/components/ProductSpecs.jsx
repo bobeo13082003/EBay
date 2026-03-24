@@ -64,11 +64,9 @@ export function ProductSpecs({ description, categoryName, categoryDescription, u
 
                         <div className="flex">
                             <span className="w-48 text-gray-500">Category</span>
-                            <Link to="/">
-                                <span className="text-gray-900 underline cursor-pointer">
-                                    {categoryName} - {categoryDescription}
-                                </span>
-                            </Link>
+                            <span className="text-gray-900 underline">
+                                {categoryName} - {categoryDescription}
+                            </span>
                         </div>
                     </div>
                 </div>

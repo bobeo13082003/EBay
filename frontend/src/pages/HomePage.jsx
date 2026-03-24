@@ -126,15 +126,17 @@ export default function HomePage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const productRes = await fetch('http://localhost:9999/products')
+                const [productRes, categoryRes] = await Promise.all([
+                    fetch('http://localhost:9999/products'),
+                    fetch('http://localhost:9999/categories')
+                ])
+
                 const productData = await productRes.json()
-
-                setProducts(productData)
-
-                const categoryRes = await fetch('http://localhost:9999/categories')
                 const categoryData = await categoryRes.json()
 
+                setProducts(productData)
                 setCategories(categoryData)
+
             } catch (error) {
                 console.error("Error fetching data:", error)
             }
