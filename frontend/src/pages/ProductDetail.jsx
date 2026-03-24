@@ -16,6 +16,7 @@ export function ProductDetail() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [product, setProduct] = useState(null)
+    const [soldQuantity, setSoldQuantity] = useState(0)
     const [orderQuantity, setOrderQuantity] = useState(1)
     const [quantityError, setQuantityError] = useState(null)
 
@@ -24,10 +25,17 @@ export function ProductDetail() {
 
         try {
             setLoading(true)
-            const productRes = await fetch(`http://localhost:9999/products/${id}`)
+
+            const [productRes, soldRes] = await Promise.all([
+                fetch(`http://localhost:9999/products/${id}`),
+                fetch(`http://localhost:9999/products/${id}/sold-quantity`)
+            ])
+
             const productData = await productRes.json()
+            const soldData = await soldRes.json()
 
             setProduct(productData)
+            setSoldQuantity(soldData[0]?.totalSold || 0)
         } catch (error) {
             console.error("Error fetching data:", error)
             setError('Cannot load product detail')
@@ -180,7 +188,7 @@ export function ProductDetail() {
                                 />
                                 <span className="text-gray-600">
                                     {productInfo.quantity} available ·{" "}
-                                    <span className="text-red-600 font-semibold">112 sold</span>
+                                    <span className="text-red-600 font-semibold">{soldQuantity} sold</span>
                                 </span>
                             </div>
 

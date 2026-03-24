@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const { Products } = require('../models/product')
+const { OrderItems } = require('../models/orderitem')
 
 // get all available products
 exports.getAllProducts = async (req, res) => {
@@ -40,6 +41,36 @@ exports.getProductDetail = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: 'Failed to retrieve product detail',
+            error: error.message
+        });
+    }
+}
+
+// get product sold quantity
+exports.getProductSoldQuantity = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const result = await OrderItems.aggregate([
+            {
+                $match: {
+                    productId: new mongoose.Types.ObjectId(id)
+                }
+            },
+            {
+                $group: {
+                    _id: "$productId",
+                    totalSold: { $sum: "$quantity" }
+                }
+            }
+        ]);
+
+        res.status(200).json(result)
+    } catch (error) {
+        console.error('Error getting product sold quantity:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to retrieve product information',
             error: error.message
         });
     }
