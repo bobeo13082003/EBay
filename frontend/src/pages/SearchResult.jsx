@@ -6,11 +6,15 @@ import { Footer } from "../components/Footer";
 import { Heart, ShoppingCart } from "lucide-react";
 import { Button, Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import { addToCart } from "../utils/cartActions";
+import { toastError, toastInfo, toastSuccess } from "../utils/toast";
 
 export default function SearchResults() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const keyword = queryParams.get("query") || "";
+    const token = useSelector((state) => state.auth.token);
 
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -145,6 +149,27 @@ export default function SearchResults() {
                                                 )}
                                             </div>
                                             <button
+                                                onClick={async (e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    try {
+                                                        const resp = await addToCart({
+                                                            productId: product._id,
+                                                            quantity: 1,
+                                                            token,
+                                                        });
+                                                        if (resp?.source === "server") {
+                                                            toastSuccess("Added to cart");
+                                                        } else {
+                                                            toastInfo("Added to local cart");
+                                                        }
+                                                    } catch (err) {
+                                                        toastError(
+                                                            err?.message ||
+                                                                "Add to cart failed"
+                                                        );
+                                                    }
+                                                }}
                                                 className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 flex items-center transition-colors shadow-sm"
                                             >
                                                 <ShoppingCart className="mr-2 h-4 w-4" />

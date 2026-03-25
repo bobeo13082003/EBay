@@ -98,7 +98,7 @@ export function SellerFeedback({ sellerId, productId }) {
                                     </span>
 
                                     <span className="font-medium text-sm text-gray-500">
-                                        {review.reviewerId.username}
+                                        {review?.reviewerId?.username || "Unknown user"}
                                     </span>
 
                                     <span className="font-normal text-sm text-gray-500">
