@@ -18,6 +18,7 @@ export function ProductDetail() {
     const [soldQuantity, setSoldQuantity] = useState(0)
     const [orderQuantity, setOrderQuantity] = useState(1)
     const [quantityError, setQuantityError] = useState(null)
+    const [isWatchlist, setIsWatchlist] = useState(false)
 
     const fetchProductDetail = async () => {
         if (!id) return
@@ -47,8 +48,36 @@ export function ProductDetail() {
     }
 
     useEffect(() => {
-        if (id) fetchProductDetail()
+        if (id) {
+            fetchProductDetail();
+            const currentWatchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+            setIsWatchlist(currentWatchlist.some((item) => item.id === id));
+        }
     }, [id])
+
+    const toggleWatchlist = () => {
+        let currentWatchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+
+        if (isWatchlist) {
+            currentWatchlist = currentWatchlist.filter(item => item.id !== id);
+            setIsWatchlist(false);
+        } else {
+            const watchlistItem = {
+                id: productInfo.id,
+                title: productInfo.title,
+                price: productInfo.price,
+                image: productImages[0],
+                category: productInfo.categoryName,
+                status: productInfo.status,
+                sold: soldQuantity,
+                description: productInfo.description
+            };
+            currentWatchlist.push(watchlistItem);
+            setIsWatchlist(true);
+        }
+
+        localStorage.setItem("watchlist", JSON.stringify(currentWatchlist));
+    }
 
     if (loading) return <div className="absolute top-0 left-0 w-full h-1 bg-blue-500 animate-pulse z-10" />
     if (error) return <div>Something went wrong: {error}</div>
@@ -209,9 +238,18 @@ export function ProductDetail() {
                             <button className="mb-2 flex w-full items-center justify-center gap-2 rounded-3xl border-2 border-blue-600 bg-white px-6 py-3 font-semibold text-base text-blue-600 hover:bg-blue-50">
                                 Add to cart
                             </button>
-                            <button className="mb-2 flex w-full items-center justify-center gap-2 rounded-3xl border-2 border-blue-600 bg-white px-6 py-3 font-semibold text-base text-blue-600 hover:bg-blue-50">
-                                <Heart className="h-5 w-5" />
-                                Add to Watchlist
+                            <button
+                                onClick={toggleWatchlist}
+                                className="mb-2 flex w-full items-center justify-center gap-2 rounded-3xl border-2 border-blue-600 bg-white px-6 py-3 font-semibold text-base text-blue-600 hover:bg-blue-50">
+                                <Heart
+                                    className={`mr-2 h-5 w-5 ${isWatchlist
+                                        ? "text-[#e43147] fill-[#e43147]"
+                                        : ""
+                                        }`}
+                                />
+                                {isWatchlist
+                                    ? "Remove from watchlist"
+                                    : "Add to watchlist"}
                             </button>
                         </div>
                     </div>
