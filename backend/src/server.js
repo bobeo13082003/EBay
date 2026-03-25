@@ -12,11 +12,17 @@ const productRoute = require('./routers/product.route')
 const categoryRoute = require('./routers/category.route')
 const reviewRoute = require('./routers/review.route')
 const userRoute = require('./routers/user.route')
+const cartRoute = require('./routers/cart.route')
+const orderRoute = require('./routers/order.route')
+const couponRoute = require('./routers/coupon.route')
 
 app.use(cors())
 
 app.use("/api/auth", authRouters)
 app.use("/api/addresses", addressRouters)
+app.use("/api/carts", cartRoute)
+app.use("/api/orders", orderRoute)
+app.use("/api/coupons", couponRoute)
 
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Welcome to Restful API server' });
