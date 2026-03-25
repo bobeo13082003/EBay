@@ -68,23 +68,20 @@ export function TopUtilityBar() {
 
                     {/* Right side */}
                     <div className="flex items-center gap-4">
-                        <a href="#" className="text-gray-700 hover:text-blue-600">
+                        <span className="text-gray-700 hover:text-blue-600">
                             Sell
-                        </a>
+                        </span>
                         <a
-                            href="#"
+                            href="/watchlist"
                             className="flex items-center gap-1 text-gray-700 hover:text-blue-600"
                         >
                             Watchlist
                             <ChevronDown className="h-3 w-3" />
                         </a>
-                        <a
-                            href="#"
-                            className="flex items-center gap-1 text-gray-700 hover:text-blue-600"
-                        >
+                        <span className="flex items-center gap-1 text-gray-700 hover:text-blue-600">
                             My eBay
                             <ChevronDown className="h-3 w-3" />
-                        </a>
+                        </span>
                         <button className="text-gray-700 hover:text-blue-600">
                             <Bell className="h-5 w-5" />
                         </button>
