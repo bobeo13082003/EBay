@@ -88,7 +88,10 @@ export function TopUtilityBar() {
                         <button className="text-gray-700 hover:text-blue-600">
                             <Bell className="h-5 w-5" />
                         </button>
-                        <button className="flex items-center gap-1 text-gray-700 hover:text-blue-600">
+                        <button
+                            onClick={() => navigate("/cart")}
+                            className="flex items-center gap-1 text-gray-700 hover:text-blue-600 cursor-pointer"
+                        >
                             <ShoppingCart className="h-5 w-5" />
                         </button>
                     </div>

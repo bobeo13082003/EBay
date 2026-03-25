@@ -52,7 +52,10 @@ exports.createAddress = async (req, res) => {
 
 exports.getAddresses = async (req, res) => {
     try {
-        const addresses = await Address.find({ userId: req.user.id })
+        const userId = req.user.userId;
+        const addresses = await Address.find({
+            $or: [{ user: userId }, { userId }],
+        })
             .sort({ isDefault: -1, createdAt: -1 });
 
         res.json({
@@ -69,9 +72,10 @@ exports.getAddresses = async (req, res) => {
 
 exports.deleteAddress = async (req, res) => {
     try {
+        const userId = req.user.userId;
         const address = await Address.findOne({
             _id: req.params.id,
-            userId: req.user.id,
+            $or: [{ user: userId }, { userId }],
         });
 
         if (!address) {
@@ -99,13 +103,14 @@ exports.updateDefault = async (req, res) => {
     const addressId = req.params.id;
 
     await Address.updateMany(
-        { user: userId },
+        { $or: [{ user: userId }, { userId }] },
         { isDefault: false }
     );
 
-    await Address.findByIdAndUpdate(addressId, {
-        isDefault: true,
-    });
+    await Address.findOneAndUpdate(
+        { _id: addressId, $or: [{ user: userId }, { userId }] },
+        { isDefault: true }
+    );
 
     res.json({ message: "Set default success" });
 };

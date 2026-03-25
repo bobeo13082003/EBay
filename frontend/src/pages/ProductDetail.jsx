@@ -5,12 +5,22 @@ import { ProductSpecs } from "../components/ProductSpecs"
 import { SimilarItems } from "../components/SimilarItems"
 import { SellerFeedback } from "../components/SellerFeedback"
 import { Footer } from "../components/Footer"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import { Heart, Info } from "lucide-react"
+import { addCartItem } from "../services/cart"
+import {
+    addLocalCartItemDelta,
+    clearLocalCartItems,
+    getLocalCartItems,
+} from "../utils/cartStorage"
+import { toastError, toastInfo, toastSuccess } from "../utils/toast"
 
 export function ProductDetail() {
     const { id } = useParams()
+    const navigate = useNavigate()
+    const token = useSelector((state) => state.auth.token)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [product, setProduct] = useState(null)
@@ -115,6 +125,44 @@ export function ProductDetail() {
         setQuantityError("")
     }
 
+    const handleAddToCart = async ({ goToCart = false } = {}) => {
+        const qtyNum = Number(orderQuantity)
+        if (!Number.isFinite(qtyNum) || qtyNum < 1) {
+            toastError("Please enter a valid quantity")
+            return
+        }
+        if (quantityError) {
+            toastError(quantityError)
+            return
+        }
+
+        try {
+            if (token) {
+                // If user has local cart leftover, sync it to server first
+                const localItems = getLocalCartItems()
+                if (localItems.length > 0) {
+                    for (const it of localItems) {
+                        await addCartItem({
+                            productId: it.productId,
+                            quantity: it.quantity,
+                        })
+                    }
+                    clearLocalCartItems()
+                }
+
+                await addCartItem({ productId: id, quantity: qtyNum })
+                toastSuccess("Added to cart")
+            } else {
+                addLocalCartItemDelta(id, qtyNum)
+                toastInfo("Added to local cart")
+            }
+
+            if (goToCart) navigate("/cart")
+        } catch (err) {
+            toastError(err.response?.data?.message || "Add to cart failed")
+        }
+    }
+
     return (
         <div className="min-h-screen bg-white">
             <TopUtilityBar />
@@ -203,10 +251,16 @@ export function ProductDetail() {
                                 </div>
                             )}
 
-                            <button className="mt-5 mb-2 flex w-full items-center justify-center gap-2 rounded-3xl bg-blue-600 px-6 py-3 font-semibold text-white text-base hover:bg-blue-700">
+                            <button
+                                onClick={() => handleAddToCart({ goToCart: true })}
+                                className="mt-5 mb-2 flex w-full items-center justify-center gap-2 rounded-3xl bg-blue-600 px-6 py-3 font-semibold text-white text-base hover:bg-blue-700"
+                            >
                                 Buy It Now
                             </button>
-                            <button className="mb-2 flex w-full items-center justify-center gap-2 rounded-3xl border-2 border-blue-600 bg-white px-6 py-3 font-semibold text-base text-blue-600 hover:bg-blue-50">
+                            <button
+                                onClick={() => handleAddToCart({ goToCart: false })}
+                                className="mb-2 flex w-full items-center justify-center gap-2 rounded-3xl border-2 border-blue-600 bg-white px-6 py-3 font-semibold text-base text-blue-600 hover:bg-blue-50"
+                            >
                                 Add to cart
                             </button>
                             <button className="mb-2 flex w-full items-center justify-center gap-2 rounded-3xl border-2 border-blue-600 bg-white px-6 py-3 font-semibold text-base text-blue-600 hover:bg-blue-50">
