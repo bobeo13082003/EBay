@@ -18,8 +18,6 @@ const orderItemSchema = new mongoose.Schema({
   },
 });
 
-module.exports.OrderItems = mongoose.model(
-  "OrderItem",
-  orderItemSchema,
-  "orderitems"
-);
+module.exports.OrderItems =
+  mongoose.models.OrderItem ||
+  mongoose.model("OrderItem", orderItemSchema, "orderitems");

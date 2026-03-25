@@ -11,6 +11,9 @@ const orderSchema = new Schema(
     status: { type: String, required: true },
     paypalOrderId: { type: String, required: false },
     items: [{ type: Schema.Types.ObjectId, ref: "OrderItem" }],
+    subtotalPrice: { type: Number, min: 0, required: false },
+    discountAmount: { type: Number, min: 0, required: false },
+    couponCode: { type: String, required: false, trim: true },
   },
   {
     timestamps: true,
@@ -19,5 +22,6 @@ const orderSchema = new Schema(
 
 orderSchema.index({ buyerId: 1, orderDate: -1 });
 
-module.exports.Orders = mongoose.model("Order", orderSchema, "orders");
+module.exports.Orders =
+  mongoose.models.Order || mongoose.model("Order", orderSchema, "orders");
 

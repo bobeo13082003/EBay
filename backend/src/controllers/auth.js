@@ -1,4 +1,4 @@
-const generateOTP = require("../utils/otp")
+const { generateOTP } = require("../utils/otp")
 const { OAuth2Client } = require("google-auth-library");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");

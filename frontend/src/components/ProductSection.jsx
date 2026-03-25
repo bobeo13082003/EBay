@@ -2,12 +2,16 @@ import { ChevronLeft, ChevronRight, Search, Heart, ShoppingCart } from "lucide-r
 import { useState, useRef } from "react"
 import { ProductCard } from "./ProductCard"
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux";
+import { addToCart } from "../utils/cartActions";
+import { toastError, toastInfo, toastSuccess } from "../utils/toast";
 
 export function ProductSection({ title, subheading, products, viewMode = "grid" }) {
     const scrollRef = useRef(null)
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
     const totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
+    const token = useSelector((state) => state.auth.token);
 
     const paginatedProducts = viewMode === "list"
         ? products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
@@ -132,6 +136,29 @@ export function ProductSection({ title, subheading, products, viewMode = "grid" 
                                                 )}
                                             </div>
                                             <button
+                                                onClick={async (e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    try {
+                                                        const resp = await addToCart({
+                                                            productId: product._id,
+                                                            quantity: 1,
+                                                            token,
+                                                        });
+                                                        if (resp?.source === "server") {
+                                                            toastSuccess("Added to cart");
+                                                        } else {
+                                                            toastInfo(
+                                                                "Added to local cart"
+                                                            );
+                                                        }
+                                                    } catch (err) {
+                                                        toastError(
+                                                            err?.message ||
+                                                            "Add to cart failed"
+                                                        );
+                                                    }
+                                                }}
                                                 className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 flex items-center transition-colors shadow-sm"
                                             >
                                                 <ShoppingCart className="mr-2 h-4 w-4" />

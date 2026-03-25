@@ -10,6 +10,7 @@ const couponSchema = new Schema(
     endDate: { type: Date, required: true },
     maxUsage: { type: Number, required: true, min: 0 },
     productId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
+    usedCount: { type: Number, default: 0, min: 0 },
   },
   {
     timestamps: false,
@@ -18,5 +19,7 @@ const couponSchema = new Schema(
 
 couponSchema.index({ code: 1 });
 
-module.exports.Coupons = mongoose.model("Coupon", couponSchema, "coupons");
+module.exports.Coupons =
+  mongoose.models.Coupon ||
+  mongoose.model("Coupon", couponSchema, "coupons");
 
